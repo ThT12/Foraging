@@ -17,13 +17,15 @@ class Forager:
         return self.stock <= 0
 
     @property
-    def quantity_which_can_be_eat(self):
+    def quantity_which_can_be_eaten(self):
         return min(Forager.STOCK_MAX - self.stock, Forager.EAT_MAX_BY_DAY)
 
     def move(self, new_x, new_y):
         move_distance = abs(self.x_pos - new_x) + abs(self.y_pos - new_y)
         if move_distance > Forager.MOVE_MAX_BY_DAY:
             raise ValueError('I cannot move that far')
+        if not move_distance:
+            return True
         self.stock = self.stock - Forager.EAT_BY_MOVE * move_distance
         if self.is_dead:
             return False

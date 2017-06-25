@@ -30,6 +30,17 @@ class Landscape:
         plt.imshow(self.land)
         plt.show()
 
+    def resources_which_can_be_eaten(self, x_pos, y_pos):
+        return self.land[x_pos, y_pos]
+
+    def eaten(self, quantity, x_pos, y_pos):
+        self.land[x_pos, y_pos] = max(self.land[x_pos, y_pos] - quantity, 0)
+
+    def is_valid_position(self, x_pos, y_pos):
+        if x_pos not in range(self.land.shape[0]) or y_pos not in range(self.land.shape[1]):
+            return False
+        return True
+
 
 def complete_resources_if_possible(patch, x_loc: int, y_loc: int, resource_dim: int):
     if x_loc not in range(patch.shape[0]) or y_loc not in range(patch.shape[1]):

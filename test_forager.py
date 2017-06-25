@@ -14,9 +14,9 @@ def test_is_dead():
 
 def test_quantity_which_can_be_eat():
     forager.stock = Forager.STOCK_MAX - 2
-    assert forager.quantity_which_can_be_eat == 2
+    assert forager.quantity_which_can_be_eaten == 2
     forager.stock = Forager.STOCK_MAX - Forager.EAT_MAX_BY_DAY * 2
-    assert forager.quantity_which_can_be_eat == Forager.EAT_MAX_BY_DAY
+    assert forager.quantity_which_can_be_eaten == Forager.EAT_MAX_BY_DAY
 
 
 def test_eat():
@@ -45,6 +45,10 @@ def test_move():
         forager.move(Forager.MOVE_MAX_BY_DAY * 2, 0)
     with pytest.raises(Exception):
         forager.move(0, Forager.MOVE_MAX_BY_DAY * 2)
+    assert forager.move(0, 0)
+    assert forager.y_pos == 0
+    assert forager.stock == 0
+    assert forager.total_move == 0
     forager.stock = Forager.EAT_BY_MOVE
     assert not forager.move(1, 0)
     forager.stock = Forager.EAT_BY_MOVE * Forager.MOVE_MAX_BY_DAY + 1
@@ -60,4 +64,3 @@ def test_move():
     assert forager.y_pos == Forager.MOVE_MAX_BY_DAY
     assert forager.stock == 1
     assert forager.total_move == Forager.MOVE_MAX_BY_DAY * 2
-
