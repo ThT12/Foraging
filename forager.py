@@ -4,6 +4,7 @@ class Forager:
     EAT_BY_MOVE = 1
     EAT_BY_DAY = 1
     EAT_MAX_BY_DAY = 5
+    MEMORY_SIZE = 5
 
     def __init__(self, x_init, y_init):
         self.stock = Forager.STOCK_MAX
@@ -11,6 +12,7 @@ class Forager:
         self.y_pos = y_init
         self.total_eaten = 0
         self.total_move = 0
+        self.memory_position = [(x_init, y_init)]
 
     @property
     def is_dead(self):
@@ -32,6 +34,7 @@ class Forager:
         self.x_pos = new_x
         self.y_pos = new_y
         self.total_move = self.total_move + move_distance
+        self.add_pos_to_memory()
         return True
 
     def eat(self, quantity):
@@ -42,5 +45,15 @@ class Forager:
     def sustain(self):
         self.stock = self.stock - Forager.EAT_BY_DAY
         if self.is_dead:
+            return False
+        return True
+
+    def add_pos_to_memory(self):
+        if len(self.memory_position) >= Forager.MEMORY_SIZE:
+            del(self.memory_position[0])
+        self.memory_position.append((self.x_pos, self.y_pos))
+
+    def is_valid_position(self, x_pos, y_pos):
+        if (x_pos, y_pos) in self.memory_position:
             return False
         return True

@@ -17,8 +17,7 @@ def eat(landscape, forager):
 def is_moving(landscape, forager):
     if not landscape.resources_which_can_be_eaten(forager.x_pos, forager.y_pos):
         return True
-    if landscape.resources_which_can_be_eaten(forager.x_pos, forager.y_pos) < forager.quantity_which_can_be_eaten and \
-            forager.stock > 10:
+    if landscape.resources_which_can_be_eaten(forager.x_pos, forager.y_pos) < Forager.EAT_BY_DAY:
         return True
     return False
 
@@ -26,8 +25,14 @@ def is_moving(landscape, forager):
 def move(landscape, forager):
     rand_pos = random.sample([[0, 1], [1, 0], [-1, 0], [0, -1]], 4)
     i = 0
-    while not landscape.is_valid_position(forager.x_pos + rand_pos[i][0], forager.y_pos + rand_pos[i][1]):
+    while not landscape.is_valid_position(forager.x_pos + rand_pos[i][0], forager.y_pos + rand_pos[i][1]) or \
+            not forager.is_valid_position(forager.x_pos + rand_pos[i][0], forager.y_pos + rand_pos[i][1]) or \
+            i == 4:
         i = i + 1
+    if i == 4:
+        i = 0
+        while not landscape.is_valid_position(forager.x_pos + rand_pos[i][0], forager.y_pos + rand_pos[i][1]):
+            i = i + 1
     forager.move(forager.x_pos + rand_pos[i][0], forager.y_pos + rand_pos[i][1])
 
 
@@ -41,7 +46,7 @@ def foraging(landscape, forager):
 
 def display(landscape, forager):
     land = np.copy(landscape.land)
-    land[forager.x_pos, forager.y_pos] = 200
+    land[forager.x_pos, forager.y_pos] = 150
     return plt.imshow(land)
 
 
