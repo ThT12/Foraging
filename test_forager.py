@@ -64,3 +64,25 @@ def test_move():
     assert forager.y_pos == Forager.MOVE_MAX_BY_DAY
     assert forager.stock == 1
     assert forager.total_move == Forager.MOVE_MAX_BY_DAY * 2
+
+
+def test_add_pos_to_memory():
+    forager.memory_position = [(0, 1)]
+    forager.y_pos = 1
+    forager.x_pos = 1
+    forager.add_pos_to_memory()
+    assert forager.memory_position == [(0, 1), (1, 1)]
+    pos = [(0, 1) for _ in range(Forager.MEMORY_SIZE)]
+    forager.memory_position = pos
+    forager.add_pos_to_memory()
+    pos2 = pos[:-1]
+    pos2.append((1, 1))
+    assert forager.memory_position == pos2
+
+
+def test_is_valid_position():
+    forager.memory_position = []
+    assert forager.is_valid_position(1, 1)
+    forager.memory_position = [(1, 0), (0, 0), (0, 1)]
+    assert forager.is_valid_position(1, 1)
+    assert not forager.is_valid_position(0, 0)

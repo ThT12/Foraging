@@ -33,6 +33,44 @@ def test_add_resources_as_patch():
     assert landscape.land[x_pos, y_pos] == Landscape.MAX_VALUE
 
 
+def test_resources_which_can_be_eaten():
+    x = 10
+    y = 10
+    nb_patches = 0
+    x_pos = 4
+    y_pos = 6
+    resource_dim = 75
+    landscape = Landscape(x, y, nb_patches)
+    landscape.land[x_pos, y_pos] = resource_dim
+    assert landscape.resources_which_can_be_eaten(x_pos, y_pos) == resource_dim
+
+
+def test_eaten():
+    x = 10
+    y = 10
+    nb_patches = 0
+    x_pos = 4
+    y_pos = 6
+    resource_dim = 75
+    landscape = Landscape(x, y, nb_patches)
+    landscape.land[x_pos, y_pos] = resource_dim
+    landscape.eaten(10, x_pos, y_pos)
+    assert landscape.resources_which_can_be_eaten(x_pos, y_pos) == resource_dim - 10
+    landscape.land[x_pos, y_pos] = resource_dim
+    landscape.eaten(resource_dim+10, x_pos, y_pos)
+    assert landscape.resources_which_can_be_eaten(x_pos, y_pos) == 0
+
+
+def test_is_valid_position():
+    x = 10
+    y = 10
+    nb_patches = 0
+    landscape = Landscape(x, y, nb_patches)
+    assert not landscape.is_valid_position(x, y-1)
+    assert not landscape.is_valid_position(0, -1)
+    assert landscape.is_valid_position(5, 5)
+
+
 def test_complete_resources_if_possible():
     x = 10
     y = 10

@@ -4,7 +4,7 @@ class Forager:
     EAT_BY_MOVE = 1
     EAT_BY_DAY = 1
     EAT_MAX_BY_DAY = 5
-    MEMORY_SIZE = 5
+    MEMORY_SIZE = 20
 
     def __init__(self, x_init, y_init):
         self.stock = Forager.STOCK_MAX
